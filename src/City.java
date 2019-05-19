@@ -6,9 +6,8 @@ import java.util.ArrayList;
 public class City {
     private int id; // id of this city
     private String name; //name of city
-    private ArrayList<Integer> arrayListCityConnect; // arrayList whit id of city whit is connect one city
+    private ArrayList<Citydistance> arrayListCityConnectDistance; // arrayList whit id of city whit is connect one city
     private Coordinate coordinate; // coordinate of city
-
     /**
      * method to generate a new city
      * @param id id of city
@@ -16,10 +15,10 @@ public class City {
      * @param arrayListCityConnect arrayList whit id of city whit is connect one city
      * @param coordinate insert the coordinate of city
      */
-    public City(int id, String name, ArrayList<Integer> arrayListCityConnect, Coordinate coordinate) {
+    public City(int id, String name, ArrayList<Citydistance> arrayListCityConnect, Coordinate coordinate) {
         this.id = id;
         this.name = name;
-        this.arrayListCityConnect = arrayListCityConnect;
+        this.arrayListCityConnectDistance = arrayListCityConnect;
         this.coordinate = coordinate;
     }
 
@@ -51,16 +50,13 @@ public class City {
         this.name = name;
     }
 
-    /**
-     * method to get the connections of one city whit other
-     * @return arrayList of connect city
-     */
-    public ArrayList<Integer> getArrayListCityConnect() {
-        return arrayListCityConnect;
+
+    public ArrayList<Citydistance> getArrayListCityConnectDistance() {
+        return arrayListCityConnectDistance;
     }
 
-    public void setArrayListCityConnect(ArrayList<Integer> arrayListCityConnect) {
-        this.arrayListCityConnect = arrayListCityConnect;
+    public void setArrayListCityConnectDistance(ArrayList<Citydistance> arrayListCityConnectDistance) {
+        this.arrayListCityConnectDistance = arrayListCityConnectDistance;
     }
 
     /**
