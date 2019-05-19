@@ -37,7 +37,7 @@ public class Main {
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM TONATIUH----------------------------------------------\n");
 
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM METZTLI----------------------------------------------\n");
-        
+
         System.out.println("\n -----------------------SAVING FILE----------------------------------------------\n");
         if(map5.xmlWrite()){
             System.out.println("File "+ xmlFileName5+ "right generation");
