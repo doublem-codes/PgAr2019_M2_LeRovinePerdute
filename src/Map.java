@@ -7,22 +7,45 @@ import java.util.ArrayList;
  * class map
  */
 public class Map {
-    // variable for write xmlc
+    // variable for write xml
     private XMLOutputFactory xmlOut = null;
     private XMLStreamWriter xmlWrite = null;
+
     private ArrayList<City> arraylistCities; //arrayList of all city of the map
+
     private Integer idPercorsoTeamTonatiuh[];
     private Integer idPercorsoTeamMetztli[];
+
+    DijkstraAlgorithm dijkstraAlgorithm;
+
 
     public void conversionToCity(Element element){
 
     }
 
-    public int calcoloCarburanteTonatiuh(){
+    public void calcStreetTeamTonatiuh(){
+
+    }
+    public void calcStreetTeamMetztli(){
+
+    }
+
+
+
+    /**
+     *
+     * @return price of carburante
+     */
+    private int calcTonatiuh(){
 
         return 0;
     }
-    public int calcoloCarburanteMetztli(){
+
+    /**
+     *
+     * @return price of carburante
+     */
+    private int calcMetztli(){
 
         return 0;
     }
@@ -49,7 +72,7 @@ public class Map {
             xmlWrite.writeStartElement("routes"); // open tag xml
             xmlWrite.writeStartElement("route");//open team Tonatiuh
             xmlWrite.writeAttribute("team=", "Tonatiuh" );
-            xmlWrite.writeAttribute("cost=",Integer.toString(calcoloCarburanteTonatiuh()));
+            xmlWrite.writeAttribute("cost=",Integer.toString(calcTonatiuh()));
             xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamTonatiuh.length));
 
             for (int i = 0; i < idPercorsoTeamTonatiuh.length; i++) {//print all cities touch
@@ -61,7 +84,7 @@ public class Map {
             xmlWrite.writeEndElement(); //close route
             xmlWrite.writeStartElement("route");//open team Metztli
             xmlWrite.writeAttribute("team=", "Metztli");
-            xmlWrite.writeAttribute("cost=",Integer.toString(calcoloCarburanteMetztli()));
+            xmlWrite.writeAttribute("cost=",Integer.toString(calcMetztli()));
             xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamMetztli.length) );
 
             for (int i = 0; i < idPercorsoTeamMetztli.length; i++) {//print cities touch
@@ -90,7 +113,7 @@ public class Map {
      * @param id id of the city
      * @return name of city
      */
-    public String getNameOfCities(int id){
+    private  String getNameOfCities(int id){
         for (City city :arraylistCities) {
             if (city.getId() == id){
                 return city.getName();

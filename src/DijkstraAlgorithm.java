@@ -6,6 +6,26 @@ public class DijkstraAlgorithm {
     private int[] nodeFrom;
     ArrayList<Integer> visitedNodes = new ArrayList<>();
 
+    public int[] getDistance() {
+        return distance;
+    }
+
+    public DijkstraAlgorithm(ArrayList<Integer> visitedNodes) {
+        this.visitedNodes = visitedNodes;
+    }
+
+    public void setDistance(int[] distance) {
+        this.distance = distance;
+    }
+
+    public int[] getNodeFrom() {
+        return nodeFrom;
+    }
+
+    public void setNodeFrom(int[] nodeFrom) {
+        this.nodeFrom = nodeFrom;
+    }
+
     private boolean dijkstraAlgorithm(){
         maxDistance(distance);
         return true;
