@@ -1,5 +1,5 @@
 public class Main {
-
+    //name of file of output
     private static final String xmlFileName5="StreetToRovine5.xml";
     private static final String xmlFileName12="StreetToRovine12.xml";
     private static final String xmlFileName50="StreetToRovine50.xml";
@@ -8,7 +8,7 @@ public class Main {
     private static final String xmlFileName10000="StreetToRovine10000.xml";
 
     public static void main(String[] args) {
-
+        //al type of map
         Map map5 = new Map();
         Map map12 = new Map();
         Map map50 = new Map();
@@ -39,35 +39,38 @@ public class Main {
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM METZTLI----------------------------------------------\n");
 
         System.out.println("\n -----------------------SAVING FILE----------------------------------------------\n");
-        if(map5.xmlWrite()){
+        if(map5.xmlWrite(xmlFileName5,"utf-8")){
             System.out.println("File "+ xmlFileName5+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName5+ "not saved ! \t Some error has occurred");
         }
-        if(map12.xmlWrite()){
+        if(map12.xmlWrite(xmlFileName12,"utf-8")){
             System.out.println("File "+ xmlFileName12+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName12+ "not saved ! \t Some error has occurred");
         }
-        if(map50.xmlWrite()){
+        if(map50.xmlWrite(xmlFileName50,"utf-8")){
             System.out.println("File "+ xmlFileName50+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName50+ "not saved ! \t Some error has occurred");
         }
-        if(map200.xmlWrite()){
+        if(map200.xmlWrite(xmlFileName200,"utf-8")){
             System.out.println("File "+ xmlFileName200+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName200+ "not saved ! \t Some error has occurred");
         }
-        if(map2000.xmlWrite()){
+        if(map2000.xmlWrite(xmlFileName2000,"utf-8")){
             System.out.println("File "+ xmlFileName2000+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName2000+ "not saved ! \t Some error has occurred");
         }
-        if(map10000.xmlWrite()){
+        if(map10000.xmlWrite(xmlFileName10000,"utf-8")){
             System.out.println("File "+ xmlFileName10000+ "right generation");
         }else{
             System.out.println("File "+ xmlFileName10000+ "not saved ! \t Some error has occurred");
         }
+
+        System.out.println("\n -----------------------ALL FILE STAMP----------------------------------------------\n");
+        System.out.println("\n -----------------------END----------------------------------------------\n");
     }
 }

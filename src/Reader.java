@@ -47,7 +47,7 @@ public class Reader {
 		boolean temp = false;
 
 		try {
-			XMLInputFactory xmlif=XMLInputFactory.newInstance();
+			XMLInputFactory xmlif = XMLInputFactory.newInstance();
 			XMLStreamReader xmlr = xmlif.createXMLStreamReader(fileName, new FileInputStream(fileName));
 			while(xmlr.hasNext()) {
 				switch(xmlr.getEventType()) {
@@ -130,5 +130,4 @@ public class Reader {
 		}
 		return root;
 	}
-
 }
