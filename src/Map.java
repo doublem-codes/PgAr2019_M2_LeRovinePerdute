@@ -13,39 +13,104 @@ public class Map {
 
     private ArrayList<City> arraylistCities; //arrayList of all city of the map
 
-    private Integer idPercorsoTeamTonatiuh[];
-    private Integer idPercorsoTeamMetztli[];
+    private int idPercorsoTeamTonatiuh[];
+    private int idPercorsoTeamMetztli[];
+    private int costTeamTonatiuh;
+    private int costTeamMetztli;
 
     DijkstraAlgorithm dijkstraAlgorithm;
 
-
     public void conversionToCity(Element element){
+        int id = 0;
+        String name = null;
+        Citydistance distance ;
+        ArrayList<Citydistance> arrayListCityConnect = null;
+        Coordinate coordinate = null;
+        String scelta="";
+        //input city
+        for(){
+            if(scelta.equals("id")){
+                id = ;
+            }else if(scelta.equals("name")){
+                name =
+            }
 
+            coordinate.setX(Integer.parseInt());
+            coordinate.setY(Integer.parseInt());
+            coordinate.getH(Integer.parseInt())
+            for(){
+                distance.setId(Integer.parseInt());
+                arrayListCityConnect.add(distance);
+            }
+            City city =new City(id,name,arrayListCityConnect,coordinate);
+            arraylistCities.add(city);
+        }
+
+
+        for(City city : arraylistCities){
+            for (int index = 0; index < city.getArrayListCityConnectDistance().size(); index++){
+                int index1 = city.getArrayListCityConnectDistance().get(index).getDistance();
+                City city1= arraylistCities.get(getCityIndex(index1));
+                city.getArrayListCityConnectDistance().get(index).setDistance(calcDistance(city,city1));
+                city.getArrayListCityConnectDistance().get(index).setDistancehigh(calcDistanceHigh(city,city1));
+            }
+        }
+
+    }
+
+    /**
+     * method to calc distance between two city in x,y
+     *
+     * @param city1 city number 1
+     * @param city2 city number 2
+     * @return distance between two city in x,y
+     */
+    private int calcDistance(City city1,City city2){
+        return (int)Math.ceil(Math.sqrt(Math.pow(city2.getCoordinate().getX()-city1.getCoordinate().getX(),2)
+                        +Math.pow(city2.getCoordinate().getY()-city1.getCoordinate().getY(),2)));
+    }
+
+
+    /**
+     * method to calc different altitude  between two city
+     *
+     * @param city2 city number 1
+     * @param city3 city number 2
+     * @return different altitude  between two city
+     */
+    private int calcDistanceHigh(City city2,City city3){  /////////////////////////caso high negative
+
+        if (city2.getCoordinate().getH() ==  city3.getCoordinate().getH()){
+            return 0;
+        }else if(city2.getCoordinate().getH() <  city3.getCoordinate().getH())
+        {
+            return city3.getCoordinate().getH()-city2.getCoordinate().getH();
+        }else{
+            return city2.getCoordinate().getH()-city3.getCoordinate().getH();
+        }
     }
 
     public void calcStreetTeamTonatiuh(){
 
     }
+
     public void calcStreetTeamMetztli(){
 
     }
 
-
-
     /**
-     *
+     *method to calc cost of street team Tonatiuh
      * @return price of carburante
      */
-    private int calcTonatiuh(){
-
+    private int calcCostTonatiuh(){
         return 0;
     }
 
     /**
-     *
+     *method to calc cost of street team Metztli
      * @return price of carburante
      */
-    private int calcMetztli(){
+    private int calcCostMetztli(){
 
         return 0;
     }
@@ -72,24 +137,24 @@ public class Map {
             xmlWrite.writeStartElement("routes"); // open tag xml
             xmlWrite.writeStartElement("route");//open team Tonatiuh
             xmlWrite.writeAttribute("team=", "Tonatiuh" );
-            xmlWrite.writeAttribute("cost=",Integer.toString(calcTonatiuh()));
+            xmlWrite.writeAttribute("cost=",Integer.toString(costTeamTonatiuh));
             xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamTonatiuh.length));
 
-            for (int i = 0; i < idPercorsoTeamTonatiuh.length; i++) {//print all cities touch
+            for (Integer id : idPercorsoTeamTonatiuh) {//print all cities touch
                 xmlWrite.writeStartElement("city");
-                xmlWrite.writeAttribute("id=",idPercorsoTeamTonatiuh[i].toString());//print id of city
-                xmlWrite.writeAttribute("name=",getNameOfCities(idPercorsoTeamTonatiuh[i]));
+                xmlWrite.writeAttribute("id=",id.toString());//print id of city
+                xmlWrite.writeAttribute("name=",getNameOfCities(id));
                 xmlWrite.writeEndElement();//close cities
             }
             xmlWrite.writeEndElement(); //close route
             xmlWrite.writeStartElement("route");//open team Metztli
             xmlWrite.writeAttribute("team=", "Metztli");
-            xmlWrite.writeAttribute("cost=",Integer.toString(calcMetztli()));
+            xmlWrite.writeAttribute("cost=",Integer.toString(costTeamMetztli));
             xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamMetztli.length) );
 
-            for (int i = 0; i < idPercorsoTeamMetztli.length; i++) {//print cities touch
-                xmlWrite.writeAttribute("id=",idPercorsoTeamMetztli[i].toString() );//print id of city
-                xmlWrite.writeAttribute("name=",getNameOfCities(idPercorsoTeamMetztli[i]));
+            for (Integer id : idPercorsoTeamMetztli) {//print cities touch
+                xmlWrite.writeAttribute("id=",id.toString() );//print id of city
+                xmlWrite.writeAttribute("name=",getNameOfCities(id));
                 xmlWrite.writeEndElement();//close cities
             }
             xmlWrite.writeEndElement(); //close route
@@ -106,6 +171,22 @@ public class Map {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    /**
+     * method to get city of arrayList of cities
+     * @param id int id of city
+     * @return the city
+     *          null if the city is not found but is impossible because there is check of input
+     *
+     */
+    private int getCityIndex(int id){
+        for (int index = 0; index <arraylistCities.size();index++) {
+            if (arraylistCities.get(index).getId() == id){
+                return index;
+            }
+        }
+        return -1;
     }
 
     /**

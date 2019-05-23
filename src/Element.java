@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class Element {
 
-
 	private String name;
 	private String character = null;
 

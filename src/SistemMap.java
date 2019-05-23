@@ -34,7 +34,7 @@ public class SistemMap {
     /**
      * method to read xml file of different map
      */
-    public void systemInputMap(){
+   public void systemInputMap(){
         Reader lettore = new Reader();
         System.out.println("\n -----------------------READING FILE----------------------------------------------\n");
         //read the xml file, while the reader read the xml file it also check if parameters are wrong or right
@@ -49,7 +49,7 @@ public class SistemMap {
     /**
      * method to convert Element in map and then calculate the better street for each team
      */
-    public void systemMap() {
+   public void systemMap() {
 
         System.out.println("\n -----------------------CONVERSION FILE----------------------------------------------\n");
         map5.conversionToCity(rootMap5);
@@ -113,4 +113,5 @@ public class SistemMap {
         }
         System.out.println("\n -----------------------ALL FILE STAMP----------------------------------------------\n");
     }
+
 }
