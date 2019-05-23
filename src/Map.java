@@ -6,6 +6,7 @@ import java.util.ArrayList;
 /**
  * class map
  */
+
 public class Map {
     // variable for write xml
     private XMLOutputFactory xmlOut = null;
@@ -110,28 +111,49 @@ public class Map {
     }
 
     public void calcStreetTeamTonatiuh(){
-
+        calcCostTonatiuh();
     }
 
     public void calcStreetTeamMetztli(){
-
+        calcCostMetztli();
     }
 
     /**
      *method to calc cost of street team Tonatiuh
      * @return price of carburante
      */
-    private int calcCostTonatiuh(){
-        return 0;
+    private void calcCostTonatiuh(){
+        int cost = 0;
+        for(int id = 0 ; id < idPercorsoTeamTonatiuh.length-1;id++){
+            int iD = idPercorsoTeamTonatiuh[id];
+            City city = arraylistCities.get(getCityIndex(iD));
+            for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
+                int id2 = city1.getId();
+                if(id2 == idPercorsoTeamTonatiuh[id+1]){
+                    cost += city1.getDistance();
+                }
+            }
+        }
+        costTeamMetztli = cost;
     }
 
     /**
      *method to calc cost of street team Metztli
      * @return price of carburante
      */
-    private int calcCostMetztli(){
-
-        return 0;
+    private void calcCostMetztli(){
+        int cost = 0;
+        for(int id = 0 ; id < idPercorsoTeamTonatiuh.length-1;id++){
+            int iD = idPercorsoTeamTonatiuh[id];
+            City city = arraylistCities.get(getCityIndex(iD));
+            for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
+                int id2 = city1.getId();
+                if(id2 == idPercorsoTeamTonatiuh[id+1]){
+                    cost += city1.getDistancehigh();
+                }
+            }
+        }
+        costTeamMetztli = cost;
     }
 
     /**
