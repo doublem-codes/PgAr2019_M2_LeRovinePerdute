@@ -70,7 +70,6 @@ public class Map {
                         +Math.pow(city2.getCoordinate().getY()-city1.getCoordinate().getY(),2)));
     }
 
-
     /**
      * method to calc different altitude  between two city
      *
@@ -78,15 +77,35 @@ public class Map {
      * @param city3 city number 2
      * @return different altitude  between two city
      */
-    private int calcDistanceHigh(City city2,City city3){  /////////////////////////caso high negative
+    private int calcDistanceHigh(City city2,City city3){
 
-        if (city2.getCoordinate().getH() ==  city3.getCoordinate().getH()){
-            return 0;
-        }else if(city2.getCoordinate().getH() <  city3.getCoordinate().getH())
-        {
-            return city3.getCoordinate().getH()-city2.getCoordinate().getH();
+        if(city2.getCoordinate().getH() ==  city3.getCoordinate().getH())return 0;
+
+        if(city2.getCoordinate().getH() == 0) return Math.abs(city3.getCoordinate().getH());
+
+        if(city3.getCoordinate().getH() == 0) return Math.abs(city2.getCoordinate().getH());
+
+        if(city2.getCoordinate().getH() > 0){
+            if(city3.getCoordinate().getH() > 0){
+                if(city2.getCoordinate().getH() > city3.getCoordinate().getH() ){
+                    return city2.getCoordinate().getH()-city3.getCoordinate().getH();
+                }else{
+                    return -city2.getCoordinate().getH()+city3.getCoordinate().getH();
+                }
+            }else{
+                //
+                return city2.getCoordinate().getH() - city3.getCoordinate().getH();
+            }
         }else{
-            return city2.getCoordinate().getH()-city3.getCoordinate().getH();
+            if(city3.getCoordinate().getH() > 0){
+                return -city2.getCoordinate().getH() + city3.getCoordinate().getH();
+            }else{
+                if(city2.getCoordinate().getH() < city3.getCoordinate().getH()){
+                    return (-city2.getCoordinate().getH()+city3.getCoordinate().getH());
+                }else{
+                    return (+city2.getCoordinate().getH()-city3.getCoordinate().getH());
+                }
+            }
         }
     }
 
