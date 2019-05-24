@@ -1,1 +1,5 @@
 # PgAr2019_M2_LeRovinePerdute
+Sulle cime delle Ande, fra foreste incontaminate dove l’uomo da secoli non osa avventurarsi, si celano le Rovine Perdute: i resti di un’antica e ormai scomparsa civiltà, oggetto di desiderio da parte di tutti gli esploratori che vogliano definirsi tali.
+Un gruppo di archeologi, suddiviso in due squadre di esplorazione, ha deciso di avventurarsi per la giungla convinto di aver finalmente identificato le coordinate geografiche della leggendaria città: attraversando i vecchi insediamenti di quell’antico popolo e ricostruendo le tracce che hanno lasciato, sono sicuri di poter raggiungere la meta tanto ambita.
+La prima squadra, denominata Team Tonatiuh, si muoverà per i sentieri di quelle valli con un avveniristico veicolo progettato per affrontare ogni tipo di dislivello senza alcuna difficoltà. Al contrario, il Team Metztli sfrutterà le potenzialità di un veicolo in grado di viaggiare a costo pressoché nullo su traiettorie piane.
+Entrambi i team sono convinti della superiorità dei propri veicoli, ma chi fra i due avrà operato la scelta vincente?

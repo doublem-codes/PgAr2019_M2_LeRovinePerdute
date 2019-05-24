@@ -47,14 +47,14 @@ public class Reader {
 		boolean temp = false;
 
 		try {
-			XMLInputFactory xmlif=XMLInputFactory.newInstance();
+			XMLInputFactory xmlif = XMLInputFactory.newInstance();
 			XMLStreamReader xmlr = xmlif.createXMLStreamReader(fileName, new FileInputStream(fileName));
 			while(xmlr.hasNext()) {
 				switch(xmlr.getEventType()) {
 					case XMLStreamConstants.START_DOCUMENT:
 						setup = true;
 						imAtHeader = false;
-						System.out.println("Start Read Doc " + fileName);
+						System.out.println("\nStart Read Doc " + fileName);
 						break;
 					case XMLStreamConstants.START_ELEMENT:
 						String startTag = xmlr.getLocalName();
@@ -96,7 +96,7 @@ public class Reader {
 					case XMLStreamConstants.END_ELEMENT:
 						String endTag = xmlr.getLocalName();
 						if(endTag.equals(root.getName())) {
-							System.out.println("End Read Doc " + fileName);
+							System.out.println("End Read Doc " + fileName +"\n\n\n\n");
 						}
 						break;
 					case XMLStreamConstants.NOTATION_DECLARATION:
@@ -130,5 +130,4 @@ public class Reader {
 		}
 		return root;
 	}
-
 }
