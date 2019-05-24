@@ -2,11 +2,9 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-
 /**
  * class map
  */
-
 public class Map {
     // variable for write xml
     private XMLOutputFactory xmlOut = null;
@@ -22,14 +20,14 @@ public class Map {
     DijkstraAlgorithm dijkstraAlgorithm;
 
     public void conversionToCity(Element element){
-        int id = 0;
-        String name = null;
-        Citydistance distance ;
-        ArrayList<Citydistance> arrayListCityConnect = null;
-        Coordinate coordinate = null;
-        String scelta="";
         //input city
-        for(){
+        /*for( : ){
+            int id = 0;
+            String name = null;
+            Citydistance distance = null ;
+            ArrayList<Citydistance> arrayListCityConnect = null;
+            Coordinate coordinate = null;
+            String scelta="";
             if(scelta.equals("id")){
                 id = ;
             }else if(scelta.equals("name")){
@@ -38,29 +36,38 @@ public class Map {
 
             coordinate.setX(Integer.parseInt());
             coordinate.setY(Integer.parseInt());
-            coordinate.getH(Integer.parseInt())
+            coordinate.setH(Integer.parseInt())
             for(){
                 distance.setId(Integer.parseInt());
                 arrayListCityConnect.add(distance);
             }
-            City city =new City(id,name,arrayListCityConnect,coordinate);
+            City city = new City(id,name,arrayListCityConnect,coordinate);
             arraylistCities.add(city);
         }
 
-
+        // calc distance and high between all city linked
         for(City city : arraylistCities){
             for (int index = 0; index < city.getArrayListCityConnectDistance().size(); index++){
-                int index1 = city.getArrayListCityConnectDistance().get(index).getDistance();
-                City city1= arraylistCities.get(getCityIndex(index1));
+                int id = city.getArrayListCityConnectDistance().get(index).getId();
+                City city1= arraylistCities.get(getCityIndex(id));
                 city.getArrayListCityConnectDistance().get(index).setDistance(calcDistance(city,city1));
                 city.getArrayListCityConnectDistance().get(index).setDistancehigh(calcDistanceHigh(city,city1));
             }
-        }
+        }*/
+    }
 
+    public void calcStreetTeamTonatiuh(){
+        //richiamo funzione per creazione percorso
+        calcCostTonatiuh();
+    }
+
+    public void calcStreetTeamMetztli(){
+        //richiamo funzione per creazione percorso
+        calcCostMetztli();
     }
 
     /**
-     * method to calc distance between two city in x,y
+     * method to calc distance between two city in x,y whit the Euclidean formula
      *
      * @param city1 city number 1
      * @param city2 city number 2
@@ -80,7 +87,7 @@ public class Map {
      */
     private int calcDistanceHigh(City city2,City city3){
 
-        if(city2.getCoordinate().getH() ==  city3.getCoordinate().getH())return 0;
+        if(city2.getCoordinate().getH() ==  city3.getCoordinate().getH())return 0; //high is the same 0
 
         if(city2.getCoordinate().getH() == 0) return Math.abs(city3.getCoordinate().getH());
 
@@ -89,33 +96,25 @@ public class Map {
         if(city2.getCoordinate().getH() > 0){
             if(city3.getCoordinate().getH() > 0){
                 if(city2.getCoordinate().getH() > city3.getCoordinate().getH() ){
-                    return city2.getCoordinate().getH()-city3.getCoordinate().getH();
+                    return city2.getCoordinate().getH()-city3.getCoordinate().getH();//high2 >0 && high3>0&& high2>high3
                 }else{
-                    return -city2.getCoordinate().getH()+city3.getCoordinate().getH();
+                    return -city2.getCoordinate().getH()+city3.getCoordinate().getH();//high2 >0 && high3>0&& high2<high3
                 }
             }else{
                 //
-                return city2.getCoordinate().getH() - city3.getCoordinate().getH();
+                return city2.getCoordinate().getH() - city3.getCoordinate().getH();//high2>0 && high3<0
             }
         }else{
             if(city3.getCoordinate().getH() > 0){
-                return -city2.getCoordinate().getH() + city3.getCoordinate().getH();
+                return -city2.getCoordinate().getH() + city3.getCoordinate().getH();//high2<0 && high3>0
             }else{
                 if(city2.getCoordinate().getH() < city3.getCoordinate().getH()){
-                    return (-city2.getCoordinate().getH()+city3.getCoordinate().getH());
+                    return (-city2.getCoordinate().getH()+city3.getCoordinate().getH());//high2<0 && high3<0 && high2<high3
                 }else{
-                    return (+city2.getCoordinate().getH()-city3.getCoordinate().getH());
+                    return (+city2.getCoordinate().getH()-city3.getCoordinate().getH());//high2<0 && high3<0 && high2>high3
                 }
             }
         }
-    }
-
-    public void calcStreetTeamTonatiuh(){
-        calcCostTonatiuh();
-    }
-
-    public void calcStreetTeamMetztli(){
-        calcCostMetztli();
     }
 
     /**
@@ -134,7 +133,7 @@ public class Map {
                 }
             }
         }
-        costTeamMetztli = cost;
+        costTeamTonatiuh = cost;
     }
 
     /**
@@ -169,6 +168,7 @@ public class Map {
             xmlOut = XMLOutputFactory.newInstance();
             xmlWrite = xmlOut.createXMLStreamWriter(new FileOutputStream(nameFile), encoding);
             xmlWrite.writeStartDocument(encoding, "1.0");
+            System.out.println("\nStart Write Doc " + nameFile);
         } catch (Exception e) {
             System.out.println("Error_writer:");
             System.out.println(e.getMessage());
@@ -199,19 +199,19 @@ public class Map {
                 xmlWrite.writeEndElement();//close cities
             }
             xmlWrite.writeEndElement(); //close route
-            xmlWrite.writeEndElement();//closed routes4
+            xmlWrite.writeEndElement();//closed routes
             xmlWrite.writeEndElement();//close output
             xmlWrite.writeEndDocument(); //close document
             xmlWrite.flush(); // empty buffer
             xmlWrite.close(); // close all
-            return true;
-
+            System.out.println("\nEnd Write Doc " + nameFile);
         } catch (Exception e) {
 
             System.out.println("Error_write");
             System.out.println(e.getMessage());
             return false;
         }
+        return true;
     }
 
     /**

@@ -54,7 +54,7 @@ public class Reader {
 					case XMLStreamConstants.START_DOCUMENT:
 						setup = true;
 						imAtHeader = false;
-						System.out.println("Start Read Doc " + fileName);
+						System.out.println("\nStart Read Doc " + fileName);
 						break;
 					case XMLStreamConstants.START_ELEMENT:
 						String startTag = xmlr.getLocalName();
@@ -96,7 +96,7 @@ public class Reader {
 					case XMLStreamConstants.END_ELEMENT:
 						String endTag = xmlr.getLocalName();
 						if(endTag.equals(root.getName())) {
-							System.out.println("End Read Doc " + fileName);
+							System.out.println("End Read Doc " + fileName +"\n\n\n\n");
 						}
 						break;
 					case XMLStreamConstants.NOTATION_DECLARATION:

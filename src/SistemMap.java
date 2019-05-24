@@ -24,17 +24,30 @@ public class SistemMap {
     Map map10000 = new Map(); //map dimension 10000
 
     //element for each map
-    Element rootMap5 ; // element map 5
-    Element rootMap12 ; // element map 12
-    Element rootMap50 ; // element map 50
-    Element rootMap200 ; // element map 200
-    Element rootMap2000 ; // element map 2000
-    Element rootMap10000 ; // element map 10000
+    Element rootMap5; // element map 5
+    Element rootMap12; // element map 12
+    Element rootMap50; // element map 50
+    Element rootMap200; // element map 200
+    Element rootMap2000; // element map 2000
+    Element rootMap10000; // element map 10000
+
+    //string of output to understand the program
+    private String conv = " conversion of ";
+    private String calc = "calc street of rovine perdute for team ";
+    private String teamT = "Totnatium of";
+    private String teamM = "Metztli of";
+    private String string5 = " map5\n";
+    private String string12 = " map12\n";
+    private String string50 = " map50\n";
+    private String string200 = " map200\n";
+    private String string2000 = " map2000\n";
+    private String string10000 = " map10000\n";
+
 
     /**
      * method to read xml file of different map
      */
-   public void systemInputMap(){
+    public void systemInputMap() {
         Reader lettore = new Reader();
         System.out.println("\n -----------------------READING FILE----------------------------------------------\n");
         //read the xml file, while the reader read the xml file it also check if parameters are wrong or right
@@ -49,37 +62,65 @@ public class SistemMap {
     /**
      * method to convert Element in map and then calculate the better street for each team
      */
-   public void systemMap() {
+    public void systemMap() {
 
         System.out.println("\n -----------------------CONVERSION FILE----------------------------------------------\n");
+        System.out.println(conv+string5);
         map5.conversionToCity(rootMap5);
+
+        System.out.println(conv+string12);
         map12.conversionToCity(rootMap12);
+
+        System.out.println(conv+string50);
         map50.conversionToCity(rootMap50);
+
+        System.out.println(conv+string200);
         map200.conversionToCity(rootMap200);
+
+        System.out.println(conv+string2000);
         map2000.conversionToCity(rootMap2000);
+
+        System.out.println(conv+string10000);
         map10000.conversionToCity(rootMap10000);
 
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM TONATIUH----------------------------------------------\n");
+        System.out.println(calc+teamT+string5);
         map5.calcStreetTeamTonatiuh();
+        System.out.println(calc+teamT+string12);
         map12.calcStreetTeamTonatiuh();
+        System.out.println(calc+teamT+string50);
         map50.calcStreetTeamTonatiuh();
+        System.out.println(calc+teamT+string200);
         map200.calcStreetTeamTonatiuh();
+        System.out.println(calc+teamT+string2000);
         map2000.calcStreetTeamTonatiuh();
+        System.out.println(calc+teamT+string10000);
         map10000.calcStreetTeamTonatiuh();
 
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM METZTLI----------------------------------------------\n");
+        System.out.println(calc+teamM+string5);
         map5.calcStreetTeamMetztli();
+
+        System.out.println(calc+teamM+string12);
         map12.calcStreetTeamMetztli();
+
+        System.out.println(calc+teamM+string50);
         map50.calcStreetTeamMetztli();
+
+        System.out.println(calc+teamM+string200);
         map200.calcStreetTeamMetztli();
+
+        System.out.println(calc+teamM+string2000);
         map2000.calcStreetTeamMetztli();
+
+        System.out.println(calc+teamM+string10000);
         map10000.calcStreetTeamMetztli();
     }
 
     /**
      * method to print all file of output whit his street
      */
-    public void systemOutStreet(){
+    public void systemOutStreet() {
         System.out.println("\n -----------------------SAVING FILE----------------------------------------------\n");
         if (map5.xmlWrite(xmlOutputFileName5, "utf-8")) {
             System.out.println("File " + xmlOutputFileName5 + "right generation");
@@ -113,5 +154,4 @@ public class SistemMap {
         }
         System.out.println("\n -----------------------ALL FILE STAMP----------------------------------------------\n");
     }
-
 }
