@@ -127,7 +127,7 @@ public class Map {
             int iD = idPercorsoTeamTonatiuh[id];
             City city = arraylistCities.get(getCityIndex(iD));
             for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
-                int id2 = city1.getId();
+                int id2 = city1.getIdConnected();
                 if(id2 == idPercorsoTeamTonatiuh[id+1]){
                     cost += city1.getDistance();
                 }
@@ -146,7 +146,7 @@ public class Map {
             int iD = idPercorsoTeamTonatiuh[id];
             City city = arraylistCities.get(getCityIndex(iD));
             for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
-                int id2 = city1.getId();
+                int id2 = city1.getIdConnected();
                 if(id2 == idPercorsoTeamTonatiuh[id+1]){
                     cost += city1.getDistancehigh();
                 }

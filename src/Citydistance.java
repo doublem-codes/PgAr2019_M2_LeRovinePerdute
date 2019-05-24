@@ -2,7 +2,7 @@
  * class whit the id of one city is connected and whit the distance of that city
  */
 public class Citydistance {
-    private int id; //id of the city connected
+    private int idConnected; //id of the city connected
     private int distance; // distance between
     private int distancehigh; // different altitude between two city
 
@@ -14,12 +14,12 @@ public class Citydistance {
         this.distancehigh = distancehigh;
     }
 
-    public int getId() {
-        return id;
+    public int getIdConnected() {
+        return idConnected;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdConnected(int idConnected) {
+        this.idConnected = idConnected;
     }
 
     public int getDistance() {
