@@ -5,8 +5,10 @@ public class DijkstraAlgorithm {
     private int[] distance;
     private int[] nodeFrom;
     ArrayList<Integer> visitedNodes = new ArrayList<>();
+    ArrayList<Integer> nearNodes = new ArrayList<>();
 
-    private boolean dijkstraAlgorithm(){
+    private boolean dijkstraAlgorithm(ArrayList<City> cities){
+
         maxDistance(distance);
         return true;
     }
@@ -62,5 +64,21 @@ public class DijkstraAlgorithm {
         int split = partition(a, low, hi);
         quicksort(a, low, split-1);
         quicksort(a, split+1, hi);
+    }
+
+    private void calculateDistance(ArrayList<City> arrayListCities){
+
+        for (int i=0; i<arrayListCities.size();i++){
+            int coordinateXFirstElements=arrayListCities.get(i).getCoordinate().getX();
+            int coordinateXSecondElements;
+            int coordinateYFirstElements=arrayListCities.get(i).getCoordinate().getY();
+            int coordinateYSecondElements;
+            int coordinateHFirstElements=arrayListCities.get(i).getCoordinate().getH();
+            int coordinateHSecondElements;
+
+            ArrayList arrayListCities.get(i).getArrayListCityConnect();
+
+
+        }
     }
 }

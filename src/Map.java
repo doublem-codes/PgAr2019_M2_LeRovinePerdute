@@ -5,4 +5,5 @@ import java.util.ArrayList;
  */
 public class Map {
     private ArrayList<City> arraylistCities; //arrayList of all city of the map
+
 }
