@@ -9,55 +9,86 @@ public class Map {
     // variable for write xml
     private XMLOutputFactory xmlOut = null;
     private XMLStreamWriter xmlWrite = null;
-
     private ArrayList<City> arraylistCities; //arrayList of all city of the map
 
     private int idPercorsoTeamTonatiuh[];
     private int idPercorsoTeamMetztli[];
+    private int idRovinePerdute;
+    private int indexRovinePerdute;
     private int costTeamTonatiuh;
     private int costTeamMetztli;
 
+    //string comunication map
+    private String conv = " conversion of ";
+    private String calc = "calc street of rovine perdute for team ";
+    private String teamT = "Totnatium of";
+    private String teamM = "Metztli of";
+
     DijkstraAlgorithm dijkstraAlgorithm;
 
-    public void conversionToCity(Element element){
-        //input city
-        /*for( : ){
-            int id = 0;
-            String name = null;
-            Citydistance distance = null ;
-            ArrayList<Citydistance> arrayListCityConnect = null;
-            Coordinate coordinate = null;
-            String scelta="";
-            if(scelta.equals("id")){
-                id = ;
-            }else if(scelta.equals("name")){
-                name =
-            }
+    public void setArraylistCities(ArrayList<City> arraylistCities) {
+        this.arraylistCities = arraylistCities;
+    }
+    /**
+     * method to check all city whit their id is different and to check the connection whit city are wright
+     * find where is rovine perdute in arrayList
+     * @param string name of kind of map work
+     */
 
-            coordinate.setX(Integer.parseInt());
-            coordinate.setY(Integer.parseInt());
-            coordinate.setH(Integer.parseInt())
-            for(){
-                distance.setId(Integer.parseInt());
-                arrayListCityConnect.add(distance);
+    public void conversionToCity(String string){
+        System.out.println("\n -----------------------CONVERSION FILE----------------------------------------------\n");
+        System.out.println("\n -----------------------CHECK FILE----------------------------------------------\n");
+
+        //check different id
+        for(int i = 0; i<arraylistCities.size();i++){
+            int idCity = arraylistCities.get(i).getId();
+            for (int h = 0; h < arraylistCities.size();h++ ){//check if id is equals;
+                if(idCity == arraylistCities.get(h).getId() ){//if true
+                    int newId = foundMaxId();//generate new id
+                    String nameCity = arraylistCities.get(h).getName();
+                    for(int m = 0; m<arraylistCities.size();m++){//check all array list of city connection whit the same name of the city and change id
+                        for(int n = 0; n < arraylistCities.get(m).getArrayListCityConnectDistance().size();n++){
+                            String nameCitycon = getNameOfCities(arraylistCities.get(m).getArrayListCityConnectDistance().get(n).getIdConnected());
+                            if(nameCity.equals(nameCitycon) && arraylistCities.get(h).getId() == arraylistCities.get(m).getArrayListCityConnectDistance().get(n).getIdConnected()){
+                                arraylistCities.get(m).getArrayListCityConnectDistance().get(n).setIdConnected(arraylistCities.get(h).getId());
+                            }
+                        }
+                    }
+                    arraylistCities.get(h).setId(newId);
+                }
             }
-            City city = new City(id,name,arrayListCityConnect,coordinate);
-            arraylistCities.add(city);
         }
+
+        //check data of connection
+        for(int i = 0; i<arraylistCities.size();i++){
+            for(int j = 0; j < arraylistCities.get(i).getArrayListCityConnectDistance().size();j++){
+                int idConnect = arraylistCities.get(i).getArrayListCityConnectDistance().get(j).getIdConnected();
+                if(getCityIndex(idConnect)<0){
+                    arraylistCities.get(i).getArrayListCityConnectDistance().remove(j);
+                    j--;
+                }
+            }
+        }
+
+        //found rovine perdude id and position of array
+        indexRovinePerdute = getCityIndex("Rovine Perdute");
+        idRovinePerdute = arraylistCities.get(indexRovinePerdute).getId();
 
         // calc distance and high between all city linked
         for(City city : arraylistCities){
             for (int index = 0; index < city.getArrayListCityConnectDistance().size(); index++){
-                int id = city.getArrayListCityConnectDistance().get(index).getId();
+                int id = city.getArrayListCityConnectDistance().get(index).getIdConnected();
                 City city1= arraylistCities.get(getCityIndex(id));
                 city.getArrayListCityConnectDistance().get(index).setDistance(calcDistance(city,city1));
                 city.getArrayListCityConnectDistance().get(index).setDistancehigh(calcDistanceHigh(city,city1));
             }
-        }*/
-    }
-
-    public void setArraylistCities(ArrayList<City> arraylistCities) {
-        this.arraylistCities = arraylistCities;
+        }
+        System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM TONATIUH----------------------------------------------\n");
+        System.out.println(calc+teamT+string);
+        calcStreetTeamTonatiuh();
+        System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM METZTLI----------------------------------------------\n");
+        System.out.println(calc+teamM+string);
+        calcStreetTeamMetztli();
     }
 
     public void calcStreetTeamTonatiuh(){
@@ -79,7 +110,7 @@ public class Map {
      */
     private int calcDistance(City city1,City city2){
         return (int)Math.ceil(Math.sqrt(Math.pow(city2.getCoordinate().getX()-city1.getCoordinate().getX(),2)
-                        +Math.pow(city2.getCoordinate().getY()-city1.getCoordinate().getY(),2)));
+                +Math.pow(city2.getCoordinate().getY()-city1.getCoordinate().getY(),2)));
     }
 
     /**
@@ -131,8 +162,7 @@ public class Map {
             int iD = idPercorsoTeamTonatiuh[id];
             City city = arraylistCities.get(getCityIndex(iD));
             for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
-                int id2 = city1.getIdConnected();
-                if(id2 == idPercorsoTeamTonatiuh[id+1]){
+                if(city1.getIdConnected()== idPercorsoTeamTonatiuh[id+1]){
                     cost += city1.getDistance();
                 }
             }
@@ -147,11 +177,8 @@ public class Map {
     private void calcCostMetztli(){
         int cost = 0;
         for(int id = 0 ; id < idPercorsoTeamTonatiuh.length-1;id++){
-            int iD = idPercorsoTeamTonatiuh[id];
-            City city = arraylistCities.get(getCityIndex(iD));
-            for (Citydistance  city1 : city.getArrayListCityConnectDistance()){
-                int id2 = city1.getIdConnected();
-                if(id2 == idPercorsoTeamTonatiuh[id+1]){
+            for (Citydistance  city1 : arraylistCities.get(getCityIndex(idPercorsoTeamTonatiuh[id])).getArrayListCityConnectDistance()){
+                if(city1.getIdConnected() == idPercorsoTeamTonatiuh[id+1]){
                     cost += city1.getDistancehigh();
                 }
             }
@@ -219,15 +246,30 @@ public class Map {
     }
 
     /**
-     * method to get city of arrayList of cities
+     * method to get index city of arrayList of cities
      * @param id int id of city
-     * @return the city
-     *          null if the city is not found but is impossible because there is check of input
+     * @return index of the city
+     *          -1 if the city is not found but is impossible because there is check of input
      *
      */
     private int getCityIndex(int id){
         for (int index = 0; index <arraylistCities.size();index++) {
             if (arraylistCities.get(index).getId() == id){
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * method to get index city of arrayList of cities
+     * @param name input name of city
+     * @return index of the city
+     *          -1 if the city is not found but is impossible because there is check of input
+     */
+    private int getCityIndex(String name){
+        for (int index = 0; index <arraylistCities.size();index++) {
+            if (arraylistCities.get(index).getName().equals(name)){
                 return index;
             }
         }
@@ -248,5 +290,15 @@ public class Map {
         return "error";
     }
 
-
+    /**
+     * check max id of all city to change id equals
+     * @return id max +1
+     */
+    private int foundMaxId(){
+        int id = 0;
+        for (City city : arraylistCities){
+            if(id < city.getId() ) id = city.getId();
+        }
+        return id+1;
+    }
     }
