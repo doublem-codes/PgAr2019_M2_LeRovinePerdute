@@ -51,15 +51,16 @@ public class SistemMap {
 
         System.out.println("\n -----------------------READING FILE----------------------------------------------\n");
         //read the xml file, while the reader read the xml file it also check if parameters are wrong or right
-        map5.read(xmlInputFileName5, "city");
-        /*
-        rootMap12 = lettore.read(xmlInputFileName12, "city");
-        rootMap50 = lettore.read(xmlInputFileName50, "city");
-        rootMap200 = lettore.read(xmlInputFileName200, "city");
-        rootMap2000 = lettore.read(xmlInputFileName2000, "city");
-        rootMap10000 = lettore.read(xmlInputFileName10000, "city");
+        Read read = new Read();
+        map5.setArraylistCities(read.readXML(xmlInputFileName5, "city"));
+        map12.setArraylistCities(read.readXML(xmlInputFileName12, "city"));
+        map50.setArraylistCities(read.readXML(xmlInputFileName50, "city"));
+        map200.setArraylistCities(read.readXML(xmlInputFileName200, "city"));
+        map2000.setArraylistCities(read.readXML(xmlInputFileName2000, "city"));
+        map10000.setArraylistCities(read.readXML(xmlInputFileName10000, "city"));
 
-         */
+
+
     }
 
     /**
