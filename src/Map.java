@@ -1,5 +1,5 @@
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.*;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 /**
@@ -12,8 +12,6 @@ public class Map {
 
     private ArrayList<City> arraylistCities; //arrayList of all city of the map
 
-<<<<<<< HEAD
-=======
     private int idPercorsoTeamTonatiuh[];
     private int idPercorsoTeamMetztli[];
     private int costTeamTonatiuh;
@@ -245,5 +243,155 @@ public class Map {
         }
         return "error";
     }
->>>>>>> 71c52c9eb59a8ede993b9dfa68067bc0699d6820
+
+
+
+
+
+
+    private String HEADER = " ";
+
+    /**
+     *
+     * @param fileName : it contains the string of the xml file to read
+     * @param strHeader: it contains the string of the header
+     *                 		codiciFiscali.txt: <codice>RRAMHL24M31L584H</codice>
+     *                 		strHeader: codice
+     *
+     *                 		comuni.txt :   <comune>
+     *    									 <nome>ABANO TERME</nome>
+     *    									 <codice>A001</codice>
+     *   									</comune>
+     *   					strHeader: comune
+     *
+     *   		       		inputPersone.txt: <persona id="0">
+     *         									<nome>GIUSEPPE</nome>
+     *        									<cognome>MUSSO</cognome>
+     *         									<sesso>M</sesso>
+     *         									<comune_nascita>ALCARA LI FUSI</comune_nascita>
+     *         									<data_nascita>1940-04-27</data_nascita>
+     *     										</persona>
+     *     					strHeader: persona
+     *
+     *
+     * @return : the element you are reading
+     */
+
+    public Element read(String fileName, String strHeader) {
+
+        ArrayList<Citydistance> citydistanceArrayList = new ArrayList<>();
+        HEADER = strHeader;
+        Citydistance citydistance = new Citydistance();
+        String cityName = null;
+        int idCity=0, cityX = 0, cityY=0, cityH=0;
+        boolean setup = true;
+        boolean imAtHeader = false;
+        Element root = null;
+        Element eHeader = null;
+        Element genericItem = null;
+        Attribute attribute = null;
+        boolean temp = false;
+        Coordinate coordinate = new Coordinate(0,0,0);
+        try {
+            XMLInputFactory xmlif = XMLInputFactory.newInstance();
+            XMLStreamReader xmlr = xmlif.createXMLStreamReader(fileName, new FileInputStream(fileName));
+            while(xmlr.hasNext()) {
+                switch(xmlr.getEventType()) {
+                    case XMLStreamConstants.START_DOCUMENT:
+                        setup = true;
+                        imAtHeader = false;
+                        System.out.println("\nStart Read Doc " + fileName);
+                        break;
+                    case XMLStreamConstants.START_ELEMENT:
+                        String startTag = xmlr.getLocalName();
+                        if(setup) {
+                            root = new Element(startTag);
+                            for(int i = 0; i < xmlr.getAttributeCount(); i++) {
+                                attribute = new Attribute(xmlr.getAttributeLocalName(i));
+                                root.getAttributesRoot().add(attribute);
+                                root.getAttributesRoot().get(i).setValue(xmlr.getAttributeValue(i));
+                            }
+                            setup = false;
+                        }
+                        else {
+                            if(startTag.equals(HEADER)) {
+                                eHeader = new Element(startTag);
+                                for(int i = 0; i < xmlr.getAttributeCount(); i++) {
+                                    String str =xmlr.getAttributeValue(i);
+                                    switch (i){
+                                        case 0:
+                                            idCity=Integer.parseInt(str);
+                                            break;
+                                        case 1:
+                                            cityName= str;
+                                            break;
+                                        case 2:
+                                             cityX = Integer.parseInt(str);
+                                            break;
+                                        case 3:
+                                            cityY=Integer.parseInt(str);
+                                            break;
+                                        case 4:
+                                            cityH = Integer.parseInt(str);
+                                            break;
+                                    }
+
+                                }
+                                imAtHeader = true;
+                            }
+                            else {
+                                imAtHeader = false;
+                                for (int i = 0; i < xmlr.getAttributeCount(); i++) {
+                                    String str2= xmlr.getAttributeValue(i);
+                                    citydistance.setIdConnected(Integer.parseInt(str2));
+                                    citydistanceArrayList.add(citydistance);
+
+                                }
+                            }
+                        }
+                        break;
+                    case XMLStreamConstants.END_ELEMENT:
+                        String endTag = xmlr.getLocalName();
+                        if(endTag.equals("city")){
+                            coordinate.setX(cityX);
+                            coordinate.setY(cityY);
+                            coordinate.setH(cityH);
+                            City city = new City(idCity,cityName,citydistanceArrayList,coordinate);
+                            arraylistCities.add(city);
+                        }
+                        if(endTag.equals(root.getName())) {
+                            System.out.println("End Read Doc " + fileName +"\n\n\n\n");
+                        }
+                        break;
+                    case XMLStreamConstants.NOTATION_DECLARATION:
+                        System.out.println("Inside "+xmlr.getText());
+                        break;
+                    case XMLStreamConstants.CHARACTERS:
+                        String character = xmlr.getText();
+
+                        if(character.trim().length()>0)
+                            if(setup) {
+                                root.setCharacter(character);
+                            }
+                            else {
+                                if(imAtHeader) {
+                                    eHeader.setCharacter(character);
+                                }
+                                else {
+                                    genericItem.setCharacter(character);
+                                }
+                            }
+                        break;
+                    default:
+                        break;
+                }
+                xmlr.next();
+            }
+        }
+        catch(Exception e){
+            System.err.println("Error detected");
+            System.err.println(e.getMessage());
+        }
+        return root;
+    }
 }

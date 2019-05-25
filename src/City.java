@@ -9,6 +9,7 @@ public class City {
     private ArrayList<Citydistance> arrayListCityConnectDistance; // arrayList whit id of city whit is connect one city
     private Coordinate coordinate; // coordinate of city
 
+
     /**
      * method to generate a new city
      * @param id id of city
@@ -71,4 +72,5 @@ public class City {
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
+
 }

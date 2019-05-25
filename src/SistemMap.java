@@ -48,15 +48,18 @@ public class SistemMap {
      * method to read xml file of different map
      */
     public void systemInputMap() {
-        Reader lettore = new Reader();
+
         System.out.println("\n -----------------------READING FILE----------------------------------------------\n");
         //read the xml file, while the reader read the xml file it also check if parameters are wrong or right
-        rootMap5 = lettore.read(xmlInputFileName5, "city");
+        map5.read(xmlInputFileName5, "city");
+        /*
         rootMap12 = lettore.read(xmlInputFileName12, "city");
         rootMap50 = lettore.read(xmlInputFileName50, "city");
         rootMap200 = lettore.read(xmlInputFileName200, "city");
         rootMap2000 = lettore.read(xmlInputFileName2000, "city");
         rootMap10000 = lettore.read(xmlInputFileName10000, "city");
+
+         */
     }
 
     /**
