@@ -1,3 +1,6 @@
+/**
+ * class to collect ol six map of rovine perdute
+ */
 public class SistemMap {
     //name of file of input
     private String xmlInputFileName5 = "PgAr_Map_5.txt";
@@ -31,7 +34,6 @@ public class SistemMap {
     private String string2000 = " map2000\n";
     private String string10000 = " map10000\n";
 
-
     /**
      * method to read xml file of different map
      */
@@ -48,7 +50,7 @@ public class SistemMap {
     }
 
     /**
-     * method to convert Element in map and then calculate the better street for each team
+     * method to convert map and then calculate the better street for each team
      */
     public void systemMap() {
         map5.conversionToCity(string5);
@@ -60,7 +62,7 @@ public class SistemMap {
     }
 
     /**
-     * method to print all file of output whit his street
+     * method to print all file of output in xml whit his street
      */
     public void systemOutStreet() {
         System.out.println("\n -----------------------SAVING FILE----------------------------------------------\n");

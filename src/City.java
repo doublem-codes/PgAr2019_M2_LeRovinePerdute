@@ -33,8 +33,8 @@ public class City {
     }
 
     /**
-     * metho
-     * @param id
+     * method to set id
+     * @param id id
      */
     public void setId(int id) {
         this.id = id;
@@ -48,17 +48,20 @@ public class City {
         return name;
     }
 
+    /**
+     * method to set the name of city
+     * @param name name of city
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-
+    /**
+     * method to get the array of city connected whi city class
+     * @return arraylist of Citydistance
+     */
     public ArrayList<Citydistance> getArrayListCityConnectDistance() {
         return arrayListCityConnectDistance;
-    }
-
-    public void setArrayListCityConnectDistance(ArrayList<Citydistance> arrayListCityConnectDistance) {
-        this.arrayListCityConnectDistance = arrayListCityConnectDistance;
     }
 
     /**
@@ -67,10 +70,6 @@ public class City {
      */
     public Coordinate getCoordinate() {
         return coordinate;
-    }
-
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
     }
 
 }

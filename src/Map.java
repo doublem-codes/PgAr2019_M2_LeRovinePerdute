@@ -2,6 +2,7 @@ import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+
 /**
  * class map
  */
@@ -13,67 +14,33 @@ public class Map {
 
     private int idPercorsoTeamTonatiuh[];
     private int idPercorsoTeamMetztli[];
-    private int idRovinePerdute;
     private int indexRovinePerdute;
     private int costTeamTonatiuh;
     private int costTeamMetztli;
-
     //string comunication map
-    private String conv = " conversion of ";
     private String calc = "calc street of rovine perdute for team ";
     private String teamT = "Totnatium of";
     private String teamM = "Metztli of";
 
-    DijkstraAlgorithm dijkstraAlgorithm;
-
+    /**
+     * method to all city of map
+     * @param arraylistCities arrayList of city of map
+     */
     public void setArraylistCities(ArrayList<City> arraylistCities) {
         this.arraylistCities = arraylistCities;
     }
+
     /**
      * method to check all city whit their id is different and to check the connection whit city are wright
      * find where is rovine perdute in arrayList
      * @param string name of kind of map work
      */
-
     public void conversionToCity(String string){
         System.out.println("\n -----------------------CONVERSION FILE----------------------------------------------\n");
         System.out.println("\n -----------------------CHECK FILE----------------------------------------------\n");
 
-        //check different id
-        for(int i = 0; i<arraylistCities.size();i++){
-            int idCity = arraylistCities.get(i).getId();
-            for (int h = 0; h < arraylistCities.size();h++ ){//check if id is equals;
-                if(idCity == arraylistCities.get(h).getId() ){//if true
-                    int newId = foundMaxId();//generate new id
-                    String nameCity = arraylistCities.get(h).getName();
-                    for(int m = 0; m<arraylistCities.size();m++){//check all array list of city connection whit the same name of the city and change id
-                        for(int n = 0; n < arraylistCities.get(m).getArrayListCityConnectDistance().size();n++){
-                            String nameCitycon = getNameOfCities(arraylistCities.get(m).getArrayListCityConnectDistance().get(n).getIdConnected());
-                            if(nameCity.equals(nameCitycon) && arraylistCities.get(h).getId() == arraylistCities.get(m).getArrayListCityConnectDistance().get(n).getIdConnected()){
-                                arraylistCities.get(m).getArrayListCityConnectDistance().get(n).setIdConnected(arraylistCities.get(h).getId());
-                            }
-                        }
-                    }
-                    arraylistCities.get(h).setId(newId);
-                }
-            }
-        }
-
-        //check data of connection
-        for(int i = 0; i<arraylistCities.size();i++){
-            for(int j = 0; j < arraylistCities.get(i).getArrayListCityConnectDistance().size();j++){
-                int idConnect = arraylistCities.get(i).getArrayListCityConnectDistance().get(j).getIdConnected();
-                if(getCityIndex(idConnect)<0){
-                    arraylistCities.get(i).getArrayListCityConnectDistance().remove(j);
-                    j--;
-                }
-            }
-        }
-
         //found rovine perdude id and position of array
         indexRovinePerdute = getCityIndex("Rovine Perdute");
-        idRovinePerdute = arraylistCities.get(indexRovinePerdute).getId();
-
         // calc distance and high between all city linked
         for(City city : arraylistCities){
             for (int index = 0; index < city.getArrayListCityConnectDistance().size(); index++){
@@ -85,20 +52,194 @@ public class Map {
         }
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM TONATIUH----------------------------------------------\n");
         System.out.println(calc+teamT+string);
-        calcStreetTeamTonatiuh();
+        idPercorsoTeamTonatiuh = dijkstraAlgorithmDistance();
+        calcCostTonatiuh();
         System.out.println("\n -----------------------CALCULATE BETTER STREET TEAM METZTLI----------------------------------------------\n");
         System.out.println(calc+teamM+string);
-        calcStreetTeamMetztli();
-    }
-
-    public void calcStreetTeamTonatiuh(){
-        //richiamo funzione per creazione percorso
-        calcCostTonatiuh();
-    }
-
-    public void calcStreetTeamMetztli(){
-        //richiamo funzione per creazione percorso
+        idPercorsoTeamMetztli = dijkstraAlgorithmDistanceHigh();
         calcCostMetztli();
+    }
+
+    /**
+     * method whit dijkstra to found best street for team TONATIUH
+     * @return id street
+     */
+    public int[] dijkstraAlgorithmDistance() {
+
+        ArrayList<Integer> visitedNodes = new ArrayList<>();
+        int []nodeFrom = new int[arraylistCities.size()];
+        int []distance = new int[arraylistCities.size()];
+        Integer node;
+        maxDistance(distance);
+
+        for(City city : arraylistCities){
+            visitedNodes.add(city.getId());
+        }
+        distance[0] = 0;
+
+        for(int i = 0; i<nodeFrom.length;i++) {
+            nodeFrom[i] = -1;
+        }
+
+        for (int m = 0; m<arraylistCities.get(0).getArrayListCityConnectDistance().size(); m++){
+            int id = arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getIdConnected();
+            if(arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getDistance() < distance[id]){
+                distance[id] = arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getDistance();
+                nodeFrom[id] = arraylistCities.get(0).getId();
+            }
+        }
+        node = 0;
+        visitedNodes.remove(node);
+
+        while (visitedNodes.size() != 0){
+            int index = distanceLess(distance, visitedNodes);
+
+
+            int distances = distance[index];
+            for (int m = 0; m < arraylistCities.get(index).getArrayListCityConnectDistance().size(); m++) {
+                int id = arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getIdConnected();
+                if(id>index){
+                if (arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getDistance() + distances < distance[id]) {
+                    distance[id] = arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getDistance();
+                    nodeFrom[id] = arraylistCities.get(index).getId();
+                }}
+            }
+
+
+            node = index;
+            visitedNodes.remove(node);
+        }
+        visitedNodes.clear();
+
+        int  index = indexRovinePerdute;
+        visitedNodes.add(indexRovinePerdute);
+
+
+        do{
+            visitedNodes.add(nodeFrom[index]);
+            index = nodeFrom[index];
+        }while(index != -1);
+
+        int[] array = new int[visitedNodes.size()-1];
+        index = visitedNodes.size()-2;
+        for(Integer number :visitedNodes){
+            array[index] = number;
+            index--;
+            if(index<0){
+                break;
+            }
+        }
+        return array;
+    }
+
+    /**
+     * method whit dijkstra to found best street for team METZTLI
+     * @return id street
+     */
+    public int[] dijkstraAlgorithmDistanceHigh() {
+
+        ArrayList<Integer> visitedNodes = new ArrayList<>();
+        int []nodeFrom = new int[arraylistCities.size()];
+        int []distance = new int[arraylistCities.size()];
+        Integer node;
+        maxDistance(distance);
+
+        for(City city : arraylistCities){
+            visitedNodes.add(city.getId());
+        }
+        distance[0] = 0;
+
+        for(int i = 0; i<nodeFrom.length;i++) {
+            nodeFrom[i] = -1;
+        }
+
+        for (int m = 0; m<arraylistCities.get(0).getArrayListCityConnectDistance().size(); m++){
+            int id = arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getIdConnected();
+            if(arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getDistancehigh() < distance[id]){
+                distance[id] = arraylistCities.get(0).getArrayListCityConnectDistance().get(m).getDistancehigh();
+                nodeFrom[id] = arraylistCities.get(0).getId();
+            }
+        }
+        node = 0;
+        visitedNodes.remove(node);
+
+        while (visitedNodes.size() != 0){
+            int index = distanceLess(distance, visitedNodes);
+            int distances = distance[index];
+            for (int m = 0; m < arraylistCities.get(index).getArrayListCityConnectDistance().size(); m++) {
+                int id = arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getIdConnected();
+                if (id > index) {
+                    if (arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getDistancehigh() + distances < distance[id]) {
+                        distance[id] = arraylistCities.get(index).getArrayListCityConnectDistance().get(m).getDistancehigh();
+                        nodeFrom[id] = arraylistCities.get(index).getId();
+                    }
+                }
+            }
+            node = index;
+            visitedNodes.remove(node);
+        }
+        visitedNodes.clear();
+        int  index = indexRovinePerdute;
+        visitedNodes.add(indexRovinePerdute);
+
+        do{
+            visitedNodes.add(nodeFrom[index]);
+            index = nodeFrom[index];
+        }while(index != -1);
+
+        int[] array = new int[visitedNodes.size()-1];
+        index = visitedNodes.size()-2;
+        for(Integer number :visitedNodes){
+            array[index] = number;
+            index--;
+            if(index<0){
+                break;
+            }
+        }
+        return array;
+    }
+
+    /**
+     * mrthod to found position whit less value of
+     * @param array input of array
+     * @param visit city remains to visit
+     * @return index
+     */
+    private int distanceLess(int []array,ArrayList<Integer>visit){
+
+        int max= array[visit.get(0)];
+        int index = visit.get(0);
+
+        for(int i = 2;i<array.length;i++){
+            if(max>array[i]){
+                boolean check = false;
+                for(Integer num : visit){
+                    if(num == i){
+                        check = true;
+                        break;
+                    }
+                }
+                if(check) {
+                    max = array[i];
+                    index = i;
+                }
+            }
+        }
+        return index;
+    }
+
+    /**
+     * method to full array distance whit infinitive
+     * @param distance array input
+     */
+    private void maxDistance ( int[] distance){
+        if (distance != null) {
+            distance[0] = 0;
+            for (int i = 0; i < distance.length; i++) {
+                distance[i] = Integer.MAX_VALUE;
+            }
+        }
+
     }
 
     /**
@@ -154,7 +295,6 @@ public class Map {
 
     /**
      *method to calc cost of street team Tonatiuh
-     * @return price of carburante
      */
     private void calcCostTonatiuh(){
         int cost = 0;
@@ -172,7 +312,6 @@ public class Map {
 
     /**
      *method to calc cost of street team Metztli
-     * @return price of carburante
      */
     private void calcCostMetztli(){
         int cost = 0;
@@ -195,6 +334,7 @@ public class Map {
      *         false if is xml isn't right
      */
     public boolean xmlWrite(String nameFile, String encoding){
+
         try {
             xmlOut = XMLOutputFactory.newInstance();
             xmlWrite = xmlOut.createXMLStreamWriter(new FileOutputStream(nameFile), encoding);
@@ -207,31 +347,32 @@ public class Map {
 
         try {
             xmlWrite.writeStartElement("routes"); // open tag xml
-            xmlWrite.writeStartElement("route");//open team Tonatiuh
-            xmlWrite.writeAttribute("team=", "Tonatiuh" );
-            xmlWrite.writeAttribute("cost=",Integer.toString(costTeamTonatiuh));
-            xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamTonatiuh.length));
 
+            xmlWrite.writeStartElement("route");//open team Tonatiuh
+            xmlWrite.writeAttribute("team", "Tonatiuh" );
+            xmlWrite.writeAttribute("cost",Integer.toString(costTeamTonatiuh));
+            xmlWrite.writeAttribute("cities",Integer.toString(idPercorsoTeamTonatiuh.length));
             for (Integer id : idPercorsoTeamTonatiuh) {//print all cities touch
                 xmlWrite.writeStartElement("city");
-                xmlWrite.writeAttribute("id=",id.toString());//print id of city
-                xmlWrite.writeAttribute("name=",getNameOfCities(id));
+                xmlWrite.writeAttribute("id",id.toString());//print id of city
+                xmlWrite.writeAttribute("name",getNameOfCities(id));
                 xmlWrite.writeEndElement();//close cities
             }
             xmlWrite.writeEndElement(); //close route
-            xmlWrite.writeStartElement("route");//open team Metztli
-            xmlWrite.writeAttribute("team=", "Metztli");
-            xmlWrite.writeAttribute("cost=",Integer.toString(costTeamMetztli));
-            xmlWrite.writeAttribute("cities=",Integer.toString(idPercorsoTeamMetztli.length) );
 
-            for (Integer id : idPercorsoTeamMetztli) {//print cities touch
-                xmlWrite.writeAttribute("id=",id.toString() );//print id of city
-                xmlWrite.writeAttribute("name=",getNameOfCities(id));
+            xmlWrite.writeStartElement("route");//open team Metztli
+            xmlWrite.writeAttribute("team", "Metztli");
+            xmlWrite.writeAttribute("cost",Integer.toString(costTeamMetztli));
+            xmlWrite.writeAttribute("cities",Integer.toString(idPercorsoTeamMetztli.length) );
+
+            for (Integer id1 : idPercorsoTeamMetztli) {//print cities touch
+            xmlWrite.writeStartElement("city");
+                xmlWrite.writeAttribute("id",id1.toString() );//print id of city
+                xmlWrite.writeAttribute("name",getNameOfCities(id1));
                 xmlWrite.writeEndElement();//close cities
             }
             xmlWrite.writeEndElement(); //close route
-            xmlWrite.writeEndElement();//closed routes
-            xmlWrite.writeEndElement();//close output
+            xmlWrite.writeEndElement(); //close route
             xmlWrite.writeEndDocument(); //close document
             xmlWrite.flush(); // empty buffer
             xmlWrite.close(); // close all

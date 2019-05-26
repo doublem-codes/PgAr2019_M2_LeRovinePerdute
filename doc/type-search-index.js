@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"Attribute"},{"p":"<Unnamed>","l":"City"},{"p":"<Unnamed>","l":"Citydistance"},{"p":"<Unnamed>","l":"Coordinate"},{"p":"<Unnamed>","l":"Element"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"Map"},{"p":"<Unnamed>","l":"Read"},{"p":"<Unnamed>","l":"SistemMap"}]
